@@ -15,6 +15,10 @@ const AbtestSchema = new Schema(
       enum: ['copy', 'colour', 'src'],
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     conversionURL: {
       type: String,
       required: true,

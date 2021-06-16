@@ -1,7 +1,9 @@
 const Abtest = require('./abtest.model');
 
-const createNewAbtest = async (user, type, conversionURL) => {
-  const abtest = await Abtest.create({ user, type, conversionURL });
+const createNewAbtest = async (user, type, name, conversionURL) => {
+  const abtest = await Abtest.create({
+    user, type, name, conversionURL,
+  });
   return abtest;
 };
 

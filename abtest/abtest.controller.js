@@ -2,8 +2,10 @@ const abtestService = require('./abtest.service');
 const variationService = require('../variation/variation.service');
 
 const postAbtest = async (req, res) => {
-  const { user, type, conversionURL } = req.body;
-  const newAbtest = await abtestService.createNewAbtest(user, type, conversionURL);
+  const {
+    user, type, name, conversionURL,
+  } = req.body;
+  const newAbtest = await abtestService.createNewAbtest(user, type, name, conversionURL);
   res.json(newAbtest);
 };
 
