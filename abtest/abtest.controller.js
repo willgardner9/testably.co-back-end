@@ -23,7 +23,6 @@ const getAbtest = async (req, res) => {
 };
 
 const getAllAbtests = async (req, res) => {
-  console.log(req);
   const { user } = req.query;
   const abtestsObj = await abtestService.getAllAbtests(user);
   res.json(abtestsObj);

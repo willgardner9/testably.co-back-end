@@ -38,7 +38,7 @@ const updateWithNewVariation = async (abtest, variationID) => {
 };
 
 const getAllAbtests = async (id) => {
-  const abtestsObj = await Abtest.find({ user: id }).populate('variations');
+  const abtestsObj = await Abtest.find({ user: id }).populate('variations').sort('-createdAt');
   return abtestsObj;
 };
 
