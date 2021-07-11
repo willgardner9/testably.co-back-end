@@ -25,7 +25,6 @@ db.once('open', () => {
 });
 
 //  **  PARSE REQUEST BODY TO JSON  **  //
-
 app.use(express.json());
 
 // ** ENABLE CORS ** //
@@ -61,6 +60,11 @@ app.use('/abtest', abtestRoutes);
 const variationRoutes = require('./variation/variation.routes');
 
 app.use('/variation', variationRoutes);
+
+//  **  STRIPE MODULE  **  //
+const stripeRoutes = require('./stripe/stripe.routes');
+
+app.use('/stripe', stripeRoutes);
 
 //  **  ERROR HANDLER  **  //
 const errorHandler = require('./middleware/errorHandler');
