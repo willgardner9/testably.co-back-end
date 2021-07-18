@@ -48,9 +48,6 @@ const customerPortal = async (req, res) => {
 };
 
 const webhook = async (req, res) => {
-  console.log('im here');
-  console.log(req);
-
   const { data } = req.body;
   const eventType = req.body.type;
 
@@ -63,15 +60,20 @@ const webhook = async (req, res) => {
   }
   if (eventType === 'invoice.paid') {
     console.log('firing invoice.paid');
+
+    const subscription = await stripe.subscriptions.retrieve(data.object.subscription);
+    const { amount } = subscription.plan;
+
     const filter = { stripeCustomerID: data.object.customer };
-    const update = { currentPlan: data.object.lines.data[0].amount };
+    const update = { currentPlan: amount };
+
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
     console.log('invoice.paid', updatedUser);
   }
   if (eventType === 'invoice.payment_failed') {
     console.log('firing invoice.payment_failed');
     const filter = { stripeCustomerID: data.object.customer };
-    const update = { currentPlan: 'done' };
+    const update = { currentPlan: 'none' };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
     console.log(updatedUser);
   }
