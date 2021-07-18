@@ -60,7 +60,7 @@ const webhook = async (req, res) => {
   if (eventType === 'invoice.paid') {
     console.log('firing invoice.paid');
     const filter = { stripeCustomerID: data.object.customer };
-    const update = { currentPlan: data.object.amount_total };
+    const update = { currentPlan: data.object.amount_paid };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
     console.log('invoice.paid', updatedUser);
   }
