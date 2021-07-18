@@ -31,8 +31,9 @@ app.use(express.json());
 const cors = require('cors');
 
 const corsOptions = {
-  origin: 'https://testably-co-front-end.vercel.app/',
+  origin: 'https://testably-co-front-end.vercel.app',
   credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
 app.use(cors(corsOptions));
 
