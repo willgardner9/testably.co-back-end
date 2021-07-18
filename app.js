@@ -30,11 +30,11 @@ app.use(express.json());
 // ** ENABLE CORS ** //
 const cors = require('cors');
 
-const corsOptions = {
-  origin: 'https://testably-co-front-end-fn4kh7lb5-willgardner9.vercel.app/',
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'https://testably-co-front-end-fn4kh7lb5-willgardner9.vercel.app/',
+//   credentials: true,
+// };
+app.use(cors());
 
 //  **  COOKIE PARSER MIDDLEWARE  **  //
 const cookieParser = require('cookie-parser');
