@@ -53,19 +53,21 @@ const webhook = async (req, res) => {
   if (eventType === 'checkout.session.completed') {
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: data.object.amount_total };
-    await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    res.status(200).json(updatedUser);
   }
   if (eventType === 'invoice.paid') {
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: data.object.lines.data[0].amount };
-    await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    res.status(200).json(updatedUser);
   }
   if (eventType === 'invoice.payment_failed') {
     const filter = { stripeCustomerID: data.object.customer };
-    const update = { currentPlan: 'none' };
-    await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    const update = { currentPlan: 'done' };
+    const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    res.status(200).json(updatedUser);
   }
-  res.sendStatus(200);
 };
 
 const createCustomerId = async (email) => {
