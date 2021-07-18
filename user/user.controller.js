@@ -12,8 +12,8 @@ const loginUser = async (req, res) => {
 
   const { user, accessTokenObj } = await userService.loginWithEmailAndPassword(email, password);
 
-  res.cookie('refreshToken', user.refreshToken, { httpOnly: true });
-  res.cookie('hasLoggedIn', true, { httpOnly: false });
+  res.cookie('refreshToken', user.refreshToken, { httpOnly: true, sameSite: 'none' });
+  res.cookie('hasLoggedIn', true, { httpOnly: false, sameSite: 'none' });
   res.json({ user, accessTokenObj });
 };
 
