@@ -31,7 +31,7 @@ app.use(express.json());
 const cors = require('cors');
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://testably-co-front-end-fn4kh7lb5-willgardner9.vercel.app/',
   credentials: true,
 };
 app.use(cors(corsOptions));
