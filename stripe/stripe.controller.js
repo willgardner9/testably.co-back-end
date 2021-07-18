@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const stripe = require('stripe')(process.env.STRIPE_SK);
 const User = require('../user/user.model');
 
@@ -51,26 +52,27 @@ const webhook = async (req, res) => {
   const eventType = req.body.type;
 
   if (eventType === 'checkout.session.completed') {
+    console.log('firing checkout.session.completed');
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: data.object.amount_total };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
-    console.log(updatedUser);
-    res.status(200).json(updatedUser);
+    console.log('checkout.session.completed', updatedUser);
   }
   if (eventType === 'invoice.paid') {
+    console.log('firing invoice.paid');
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: data.object.lines.data[0].amount };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
-    console.log(updatedUser);
-    res.status(200).json(updatedUser);
+    console.log('invoice.paid', updatedUser);
   }
   if (eventType === 'invoice.payment_failed') {
+    console.log('firing invoice.payment_failed');
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: 'done' };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
     console.log(updatedUser);
-    res.status(200).json(updatedUser);
   }
+  res.sendStatus(200);
 };
 
 const createCustomerId = async (email) => {
