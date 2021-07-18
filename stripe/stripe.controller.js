@@ -48,6 +48,9 @@ const customerPortal = async (req, res) => {
 };
 
 const webhook = async (req, res) => {
+  console.log('im here');
+  console.log(req);
+
   const { data } = req.body;
   const eventType = req.body.type;
 
