@@ -18,7 +18,7 @@ const handleSilentRefresh = async (req, res) => {
   await tokenService.saveRefreshTokenToUser(id, newRefreshToken);
 
   res.cookie('refreshToken', newRefreshToken, {
-    httpOnly: true, sameSite: 'none', secure: true, path: '/', domain: 'https://testably-co-front-end.vercel.app/',
+    httpOnly: true, sameSite: 'none', secure: true, path: '/',
   });
   res.json({ newAccessTokenObj, id });
 };

@@ -50,27 +50,29 @@ const webhook = async (req, res) => {
   const { data } = req.body;
   const eventType = req.body.type;
 
-  if (eventType === 'checkout.session.completed') {
-    const updatedUser = await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-      { $set: { currentPlan: data.object.amount_total } });
-    console.log(updatedUser);
-  }
-  // switch (eventType) {
-  //   case 'checkout.session.completed':
-  //     await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-  //       { $set: { currentPlan: data.object.amount_total } });
-  //     break;
-  //   case 'invoice.paid':
-  //     await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-  //       { $set: { currentPlan: data.object.amount_total } });
-  //     break;
-  //   case 'invoice.payment_failed':
-  //     await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-  //       { $set: { currentPlan: null } });
-  //     break;
-  //   default:
-  //     // Unhandled event type
+  // if (eventType === 'checkout.session.completed') {
+  //   const updatedUser = await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
+  //     { $set: { currentPlan: data.object.amount_total } });
+  //   console.log(updatedUser);
+  //   return;
   // }
+  switch (eventType) {
+    case 'checkout.session.completed':
+      await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
+        { $set: { currentPlan: data.object.amount_total } });
+      break;
+    case 'invoice.paid':
+      await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
+        { $set: { currentPlan: data.object.amount_total } });
+      break;
+    case 'invoice.payment_failed':
+      await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
+        { $set: { currentPlan: null } });
+      break;
+    default:
+      // Unhandled event type
+  }
+  return res.sendStatus(200);
 };
 
 const createCustomerId = async (email) => {
