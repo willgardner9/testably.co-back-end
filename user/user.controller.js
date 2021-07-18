@@ -13,10 +13,10 @@ const loginUser = async (req, res) => {
   const { user, accessTokenObj } = await userService.loginWithEmailAndPassword(email, password);
 
   res.cookie('refreshToken', user.refreshToken, {
-    httpOnly: true, sameSite: 'none', secure: true, path: '/',
+    httpOnly: true, sameSite: 'none', secure: true, path: '/', domain: 'https://testably-co-front-end.vercel.app/',
   });
   res.cookie('hasLoggedIn', true, {
-    httpOnly: false, sameSite: 'none', secure: true, path: '/',
+    httpOnly: false, sameSite: 'none', secure: true, path: '/', domain: 'https://testably-co-front-end.vercel.app/',
   });
   res.json({ user, accessTokenObj });
 };
