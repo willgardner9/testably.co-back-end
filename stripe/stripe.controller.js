@@ -51,8 +51,10 @@ const webhook = async (req, res) => {
   const eventType = req.body.type;
 
   if (eventType === 'checkout.session.completed') {
+    console.log('firing checkout.session.completed');
     const updatedUser = await User.findOne({ stripeCustomerID: data.object.customer },
       (err, doc) => {
+        console.log('err', err);
         const userInDb = doc;
         userInDb.currentPlan = data.object.amount_total;
         userInDb.save();
@@ -63,8 +65,10 @@ const webhook = async (req, res) => {
     console.log('checkout.session.completed', updatedUser);
   }
   if (eventType === 'invoice.paid') {
+    console.log('firing invoice.paid');
     const updatedUser = await User.findOne({ stripeCustomerID: data.object.customer },
       (err, doc) => {
+        console.log('err', err);
         const userInDb = doc;
         userInDb.currentPlan = data.object.amount_total;
         userInDb.save();

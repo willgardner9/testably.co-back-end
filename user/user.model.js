@@ -27,7 +27,7 @@ const UserSchema = new Schema(
     },
     currentPlan: {
       type: String,
-      default: null,
+      default: 'none',
     },
   },
   {
