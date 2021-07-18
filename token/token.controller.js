@@ -17,7 +17,9 @@ const handleSilentRefresh = async (req, res) => {
 
   await tokenService.saveRefreshTokenToUser(id, newRefreshToken);
 
-  res.cookie('refreshToken', newRefreshToken, { httpOnly: true });
+  res.cookie('refreshToken', newRefreshToken, {
+    httpOnly: true, sameSite: 'none', secure: true, path: '/',
+  });
   res.json({ newAccessTokenObj, id });
 };
 

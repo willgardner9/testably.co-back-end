@@ -12,8 +12,12 @@ const loginUser = async (req, res) => {
 
   const { user, accessTokenObj } = await userService.loginWithEmailAndPassword(email, password);
 
-  res.cookie('refreshToken', user.refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
-  res.cookie('hasLoggedIn', true, { httpOnly: false, sameSite: 'none', secure: true });
+  res.cookie('refreshToken', user.refreshToken, {
+    httpOnly: true, sameSite: 'none', secure: true, path: '/',
+  });
+  res.cookie('hasLoggedIn', true, {
+    httpOnly: false, sameSite: 'none', secure: true, path: '/',
+  });
   res.json({ user, accessTokenObj });
 };
 
