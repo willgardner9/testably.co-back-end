@@ -24,7 +24,7 @@ const logoutUser = async (req, res) => {
 };
 
 const getUserById = async (req, res) => {
-  const user = await userService.findUserById(req.body.id);
+  const user = await userService.findUserById(req.params.id);
   res.json(user);
 };
 

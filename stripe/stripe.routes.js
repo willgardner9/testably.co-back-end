@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/create-checkout-session', authenticateRoleAdminOrUser, stripeController.createCheckoutSession);
 router.post('/customer-portal', authenticateRoleAdminOrUser, stripeController.customerPortal);
-router.post('/webhook', authenticateRoleAdminOrUser, stripeController.webhook);
+router.post('/webhook', stripeController.webhook);
 
 module.exports = router;

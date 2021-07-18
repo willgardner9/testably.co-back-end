@@ -22,6 +22,13 @@ const UserSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    stripeCustomerID: {
+      type: String,
+    },
+    currentPlan: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

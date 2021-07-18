@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('./user.model');
+const stripeController = require('../stripe/stripe.controller');
 const tokenService = require('../token/token.service');
 const CustomError = require('../utils/CustomError');
 
@@ -11,7 +12,7 @@ const findUserByEmail = async (email) => {
 };
 
 const findUserById = async (id) => {
-  const user = await User.findOne({ id });
+  const user = await User.findOne({ _id: id });
   return user || false;
 };
 
@@ -24,7 +25,11 @@ const createUser = async ({ email, password, role }) => {
   }
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
-  const user = await User.create({ email, hashedPassword, role });
+  const stripeCustomerObject = await stripeController.createCustomerId(email);
+  const stripeCustomerID = stripeCustomerObject.id;
+  const user = await User.create({
+    email, hashedPassword, role, stripeCustomerID,
+  });
   return user;
 };
 
@@ -49,9 +54,15 @@ const loginWithEmailAndPassword = async (email, password) => {
   return { user, accessTokenObj };
 };
 
+const updateCurrentPlan = async (stripeCustomerID, currentPlan) => {
+  const updatedUser = await User.findOneAndUpdate({ stripeCustomerID }, { currentPlan });
+  return updatedUser;
+};
+
 module.exports = {
   findUserByEmail,
   findUserById,
   createUser,
   loginWithEmailAndPassword,
+  updateCurrentPlan,
 };
