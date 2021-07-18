@@ -60,33 +60,18 @@ const webhook = async (req, res) => {
   if (eventType === 'invoice.paid') {
     console.log('firing invoice.paid');
     const filter = { stripeCustomerID: data.object.customer };
-    const update = { currentPlan: data.object.amount_paid };
+    const update = { currentPlan: data.object.lines.data[0].amount };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
     console.log('invoice.paid', updatedUser);
   }
   if (eventType === 'invoice.payment_failed') {
-    const updatedUser = await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-      { $set: { currentPlan: null } });
+    console.log('firing invoice.payment_failed');
+    const filter = { stripeCustomerID: data.object.customer };
+    const update = { currentPlan: 'done' };
+    const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
     console.log(updatedUser);
   }
   res.sendStatus(200);
-  // switch (eventType) {
-  //   case 'checkout.session.completed':
-  //     await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-  //       { $set: { currentPlan: data.object.amount_total } });
-  //     break;
-  //   case 'invoice.paid':
-  //     await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-  //       { $set: { currentPlan: data.object.amount_total } });
-  //     break;
-  //   case 'invoice.payment_failed':
-  //     await User.findOneAndUpdate({ stripeCustomerID: data.object.customer },
-  //       { $set: { currentPlan: null } });
-  //     break;
-  //   default:
-  //     // Unhandled event type
-  // }
-  // return res.sendStatus(200);
 };
 
 const createCustomerId = async (email) => {
