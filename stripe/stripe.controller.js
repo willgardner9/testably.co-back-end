@@ -35,7 +35,7 @@ const createCheckoutSession = async (req, res) => {
 const customerPortal = async (req, res) => {
   // This is the url to which the customer will be redirected when they are done
   // managing their billing with the portal.
-  const returnUrl = 'http://localhost:3000/dashboard';
+  const returnUrl = 'https://testably-co-front-end.vercel.app/dashboard';
   const customer = req.body.stripeCustomerID;
 
   const session = await stripe.billingPortal.sessions.create({
