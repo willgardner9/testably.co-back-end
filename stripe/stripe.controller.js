@@ -54,18 +54,21 @@ const webhook = async (req, res) => {
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: data.object.amount_total };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    console.log(updatedUser);
     res.status(200).json(updatedUser);
   }
   if (eventType === 'invoice.paid') {
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: data.object.lines.data[0].amount };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    console.log(updatedUser);
     res.status(200).json(updatedUser);
   }
   if (eventType === 'invoice.payment_failed') {
     const filter = { stripeCustomerID: data.object.customer };
     const update = { currentPlan: 'done' };
     const updatedUser = await User.findOneAndUpdate(filter, update, { returnOriginal: false });
+    console.log(updatedUser);
     res.status(200).json(updatedUser);
   }
 };
