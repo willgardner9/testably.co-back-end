@@ -16,6 +16,11 @@ const findUserById = async (id) => {
   return user || false;
 };
 
+const hashPassword = async (password) => {
+  const salt = bcrypt.genSaltSync(10);
+  return bcrypt.hashSync(password, salt);
+};
+
 //  ** CONTROLLER SERVICES  **  //
 
 const createUser = async ({ email, password, role }) => {
@@ -59,10 +64,21 @@ const updateCurrentPlan = async (stripeCustomerID, currentPlan) => {
   return updatedUser;
 };
 
+const resetPassword = async (email, password, token) => {
+  const hashedPassword = await hashPassword(password);
+  const isTokenValid = await tokenService.authenticateToken(token);
+  if (!isTokenValid) {
+    return false;
+  }
+  const updatedUser = await User.findOneAndUpdate({ email }, { hashedPassword });
+  return updatedUser;
+};
+
 module.exports = {
   findUserByEmail,
   findUserById,
   createUser,
   loginWithEmailAndPassword,
   updateCurrentPlan,
+  resetPassword,
 };
