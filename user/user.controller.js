@@ -60,7 +60,7 @@ const forgotPassword = async (req, res) => {
     from: '"testably" <will@testably.co>', // sender address
     to: email, // list of receivers
     subject: 'testably - Reset Password', // Subject line
-    text: `Hi ${email}, please follow this link to reset your password. Link valid for 20 minutes. https://www.testably.co/reset-password?accessToken=${accessToken}`, // plain text body
+    text: `Hi ${email}, please follow this link to reset your password. Link valid for 20 minutes. https://www.testably.co/reset-password?accessToken=${accessToken}&email=${email}`, // plain text body
   };
 
   await transporter.sendMail(emailInfo, (err, info) => {
