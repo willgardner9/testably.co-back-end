@@ -11,6 +11,5 @@ router.get('/logout', userController.logoutUser);
 router.get('/:id', userController.getUserById);
 router.post('/forgot-password', userController.forgotPassword);
 router.post('/reset-password', userController.resetPassword);
-// router.get('/', authenticateRoleAdmin, userController.FUNCTION);
 
 module.exports = router;

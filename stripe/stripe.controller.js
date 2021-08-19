@@ -2,6 +2,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SK_LIVE);
 const User = require('../user/user.model');
 
+//  refer to stripe documentation for explainers or debugging
+
 const createCheckoutSession = async (req, res) => {
   const { priceId, stripeCustomerID } = req.body;
   try {
@@ -36,15 +38,13 @@ const createCheckoutSession = async (req, res) => {
 const customerPortal = async (req, res) => {
   // This is the url to which the customer will be redirected when they are done
   // managing their billing with the portal.
-  const returnUrl = 'https://www.testably.co/dashboard';
+  const returnUrl = 'https://www.testably.co/account';
   const customer = req.body.stripeCustomerID;
 
   const session = await stripe.billingPortal.sessions.create({
     customer,
     return_url: returnUrl,
   });
-
-  console.log('session', session);
 
   return res.json({ session });
 };

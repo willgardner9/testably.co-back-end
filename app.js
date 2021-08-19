@@ -27,10 +27,10 @@ db.once('open', () => {
 //  **  PARSE REQUEST BODY TO JSON  **  //
 app.use(express.json());
 
-// ** ENABLE CORS ** //
+// ** ENABLE CORS FOR TESTING AND PRODUCTION ** //
 const cors = require('cors');
 
-const whitelist = ['http://localhost:3000', 'https://testably-co-front-end.vercel.app', 'https://www.testably.co'];
+const whitelist = ['http://localhost:3000', 'https://www.testably.co'];
 
 const corsOptions = {
   origin: function (origin, callback) {
