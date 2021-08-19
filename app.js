@@ -30,7 +30,7 @@ app.use(express.json());
 // ** ENABLE CORS ** //
 const cors = require('cors');
 
-const whitelist = ['http://localhost:3000', 'https://testably-co-front-end.vercel.app'];
+const whitelist = ['http://localhost:3000', 'https://testably-co-front-end.vercel.app', 'https://www.testably.co'];
 
 const corsOptions = {
   origin: function (origin, callback) {

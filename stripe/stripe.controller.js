@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const stripe = require('stripe')(process.env.STRIPE_SK);
+const stripe = require('stripe')(process.env.STRIPE_SK_LIVE);
 const User = require('../user/user.model');
 
 const createCheckoutSession = async (req, res) => {
@@ -18,8 +18,8 @@ const createCheckoutSession = async (req, res) => {
       // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
       // the actual Session ID is returned in the query parameter when your customer
       // is redirected to the success page.
-      success_url: 'https://testably-co-front-end.vercel.app/dashboard?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://testably-co-front-end.vercel.app/account',
+      success_url: 'https://www.testably.co/dashboard?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://www.testably.co/account',
     });
 
     return res.json(session.id);
@@ -36,7 +36,7 @@ const createCheckoutSession = async (req, res) => {
 const customerPortal = async (req, res) => {
   // This is the url to which the customer will be redirected when they are done
   // managing their billing with the portal.
-  const returnUrl = 'https://testably-co-front-end.vercel.app/dashboard';
+  const returnUrl = 'https://testably.co/dashboard';
   const customer = req.body.stripeCustomerID;
 
   const session = await stripe.billingPortal.sessions.create({
