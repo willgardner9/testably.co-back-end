@@ -31,6 +31,7 @@ const createUser = async ({ email, password, role }) => {
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
   const stripeCustomerObject = await stripeController.createCustomerId(email);
+  console.log('stripecustomerobj', stripeCustomerObject);
   const stripeCustomerID = stripeCustomerObject.id;
   const user = await User.create({
     email, hashedPassword, role, stripeCustomerID,
